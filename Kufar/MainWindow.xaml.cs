@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Kufar
 {
@@ -11,11 +10,11 @@ namespace Kufar
         public MainWindow()
         {
             InitializeComponent();
-            dynamic activeX = this.WB.GetType().InvokeMember("ActiveXInstance",
-            BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
-            null, this.WB, new object[] { });
+            //dynamic activeX = this.WB.GetType().InvokeMember("ActiveXInstance",
+            //BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+            //null, this.WB, new object[] { });
 
-            activeX.Silent = true;
+            //activeX.Silent = true;
         }
     }
 }

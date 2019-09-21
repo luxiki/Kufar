@@ -14,9 +14,9 @@ namespace Kufar
 
     public class Advert
     {
-
-
         public string subject { get; set; }
+
+        public string newSubject { get; set; }
 
         public int? price_byn_change { get; set; }
 
@@ -27,6 +27,10 @@ namespace Kufar
         public Advert() { }
         public Advert(Advert Old, Advert New)
         {
+            if( Old.subject != New.subject)
+            {
+                newSubject = New.subject;
+            }
             subject = Old.subject;
             ad_link = Old.ad_link;
             price_byn = Old.price_byn/100;

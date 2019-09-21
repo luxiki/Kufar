@@ -4,13 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kufar"
-        xmlns:wb="clr-namespace:HelperClass"
-        xmlns:wpfBrowser="clr-namespace:WpfBrowser;assembly=WpfBrowser"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1200">
 
     <Window.DataContext>
-        <local:VM/>
+        <local:VM></local:VM>
     </Window.DataContext>
 
     <Grid>
@@ -18,34 +16,39 @@
             <RowDefinition />
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>-->
 
 
 
-        <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding adverts, Mode=TwoWay}"  AutoGenerateColumns="False" SelectedItem="{Binding advertSelect}">
+        <DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding adverts}" IsReadOnly="True" AutoGenerateColumns="False" SelectedItem="{Binding advertSelect}">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Header" Binding="{Binding subject}" Width="250" />
+                <DataGridTextColumn Header="Header" Binding="{Binding subject}" Width="350"/>
                 <DataGridTextColumn Header="Price" Binding="{Binding price_byn}" Width="70" />
                 <DataGridTextColumn Header="New price" Binding="{Binding price_byn_change}" Width="70" />
+                <DataGridTextColumn Header="New Header" Binding="{Binding newSubject}" Width="350" />
             </DataGrid.Columns>
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenInWebBrowser}"/>
+            </DataGrid.InputBindings>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Open in WebBrowser" Command="{Binding OpenInWebBrowser}"/>
+                    <MenuItem Header="Open in WebBrowser" Command="{Binding OpenInWebBrowser}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button Content="Start scan" Command="{Binding StartScan}" Width="100" Margin="60,5,40,5"/>
+            <Button Content="Start scan" IsEnabled="{Binding IEnabled}"  Command="{Binding StartScan}" Width="100" Margin="60,5,40,5"/>
             <TextBlock Text="{Binding Page, Mode=TwoWay}" Margin="5"/>
-            <Button Content="Save" Command="{Binding Save}" Width="100" Margin="40,5,80,5"/>
-            
+            <Button Content="Save" Command="{Binding Save}" Width="100" Margin="40,5,20,5"/>
+            <TextBlock Text="{Binding adverts.Count, Mode=OneWay, StringFormat={}{0} adverts}" Margin="5,10,20,10"/>
+            <TextBox Text="{Binding WebAddress}" IsEnabled="{Binding IEnabled}" VerticalContentAlignment="Center" Width="700"/>
         </StackPanel>
-        <WebBrowser x:Name="WB" Grid.Column="1" Source="http://www.professorweb.ru"></WebBrowser>
-        <!--wb:WebBrowserUtility.BindableSource="google.com"/>-->
+        <!--<WebBrowser x:Name="WB" Grid.Column="1" Source="http://www.professorweb.ru"></WebBrowser>
+        --><!--wb:WebBrowserUtility.BindableSource="google.com"/>-->
 
 
     </Grid>

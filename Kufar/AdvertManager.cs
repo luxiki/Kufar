@@ -37,14 +37,14 @@ namespace Kufar
 
         public LinkedList<Advert> AdvertsChange = new LinkedList<Advert>();
 
-        public AdvertManager(string Url)
+        public AdvertManager()
         {
-            url = Url;
             Adverts.ads = new List<Advert>();
         }
 
-        public void StartScan()
+        public void StartScan(string Url)
         {
+            url = Url;
             int w = 53;
             do
             {
@@ -114,15 +114,17 @@ namespace Kufar
             
 
         }
-        private void GetJson()
-        {
+        private void GetJson() { 
+        
+            if (!string.IsNullOrEmpty(html))
+            {
             int index = html.IndexOf(JSONSTART);
 
             string result = html.Substring(index + 15);
 
             int s = 1;
             int i = 20;
-            while ((s > 0) && (i < result.Length))
+            while ((s > 0) && (i < result.Length-1))
             {
                 i++;
                 if (result[i] == '[') { s++; }
@@ -133,7 +135,7 @@ namespace Kufar
 
             //File.WriteAllText("ss.txt", json);
             //File.WriteAllText("sss.txt", html);
-
+            }
         }
         private void AddAdvert()
         {
@@ -151,33 +153,34 @@ namespace Kufar
         }
         private void UrlNext()
         {
-
-            int index = html.IndexOf(URLNEXTSTART) + 250;
-
-            string result = html.Substring(index, 1500);
-
-            index = result.IndexOf(URLNEXT);
-
-            if (index > 0)
+            if (!string.IsNullOrEmpty(html))
             {
-                result = result.Substring(index + URLNEXT.Length + 5);
+                int index = html.IndexOf(URLNEXTSTART) + 250;
 
-                index = result.IndexOf('"');
+                string result = html.Substring(index, 1600);
 
-                result = result.Substring(index + 1);
+                index = result.IndexOf(URLNEXT);
 
-                index = result.IndexOf('"');
+                if (index > 0)
+                {
+                    result = result.Substring(index + URLNEXT.Length + 5);
 
-                result = result.Substring(0, index);
+                    index = result.IndexOf('"');
 
-                result = "https://www.kufar.by" + result;
+                    result = result.Substring(index + 1);
 
-                result = result.Replace("amp;", "");
+                    index = result.IndexOf('"');
 
-                url = result;
+                    result = result.Substring(0, index);
+
+                    result = "https://www.kufar.by" + result;
+
+                    result = result.Replace("amp;", "");
+
+                    url = result;
+                }
+                else { url = null; }
             }
-            else { url = null; }
-
             
 
         }
